@@ -18,7 +18,7 @@ export default function Home() {
         </div>
         <div className='mid-container'>
           <Timer />
-          <WordsList words={words} />
+          <WordsList />
           <BidTracker />
         </div>
         <div className='right-container'>

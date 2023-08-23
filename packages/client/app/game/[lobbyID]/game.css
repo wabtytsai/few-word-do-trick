@@ -44,6 +44,12 @@ body {
   justify-content: space-between;
 }
 
+.mid-container {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
 .timer-container {
   display: flex;
   flex-direction: row;
@@ -64,6 +70,12 @@ body {
   align-items: center;
 }
 
-.words-list.spoiler {
+.words-list {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.words-list-spoiler {
   filter: blur(1rem);
 }
