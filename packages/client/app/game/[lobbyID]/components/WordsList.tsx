@@ -2,7 +2,7 @@
 
 import { useEffect, useState } from 'react';
 
-import useFetchWordsSet from '../hooks/useFetchWordsSet';
+import fetchWordsSet from '../utils/fetchWordsSet';
 
 const NUMBER_OF_WORDS = 5;
 
@@ -13,7 +13,7 @@ export default function WordsList() {
 
     useEffect(() => {
         const fetchData = async () => {
-            const data = await useFetchWordsSet();
+            const data = await fetchWordsSet();
             setWords(prev => [...prev, ...data]);
         }
         if (page >= words.length - NUMBER_OF_WORDS) {
@@ -32,7 +32,7 @@ export default function WordsList() {
         <div className='words-list'>
             <div className={`words-list-${blur ? 'spoiler' : 'reveal'}`} onClick={toggleBlur}>
                 {words.slice(page, page + NUMBER_OF_WORDS).map(word => 
-                    <div key={word}>{word}</div>
+                    <div className='words-list-word' key={word}>{word}</div>
                 )}
             </div>
             <div className='words-list-next' onClick={onNextWords}>Next</div>

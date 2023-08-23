@@ -79,3 +79,7 @@ body {
 .words-list-spoiler {
   filter: blur(1rem);
 }
+
+.words-list-word {
+  text-align: center;
+}

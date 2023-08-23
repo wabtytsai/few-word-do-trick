@@ -29,7 +29,7 @@ const words = [
     'Ring'
 ];
 
-export default async function useFetchWordsSet() {
+export default async function fetchWordsSet() {
     const shuffled = words.sort(() => 0.5 - Math.random());
     const wordsSet = shuffled.slice(0, 15);
 
