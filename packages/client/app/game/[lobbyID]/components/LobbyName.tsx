@@ -4,7 +4,7 @@ import { useParams } from 'next/navigation';
 
 const LOBBY_PARAM = 'lobbyID';
 
-export default function Lobby() {
+export default function LobbyName() {
     const params = useParams();
 
     return (

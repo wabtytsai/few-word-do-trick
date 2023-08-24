@@ -1,5 +1,5 @@
 import BidTracker from './components/BidTracker';
-import Lobby from './components/Lobby';
+import LobbyName from './components/LobbyName';
 import TeamTracker from './components/TeamTracker';
 import Timer from './components/Timer';
 import WordsList from './components/WordsList';
@@ -9,12 +9,12 @@ export default function Home() {
   return (
     <div className='app'>
       <div className='header'>
-        <Lobby />
+        <LobbyName />
       </div>
 
       <div className='app-container'>
         <div className='left-container'>
-          <TeamTracker members={['ed']} />
+          <TeamTracker members={['Team 1']} />
         </div>
         <div className='mid-container'>
           <Timer />
@@ -22,7 +22,7 @@ export default function Home() {
           <BidTracker />
         </div>
         <div className='right-container'>
-          <TeamTracker members={['tian']} />
+          <TeamTracker members={['Team 2']} />
         </div>
       </div>
 

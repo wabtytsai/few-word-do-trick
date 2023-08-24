@@ -44,10 +44,16 @@ body {
   justify-content: space-between;
 }
 
+.left-container, .right-container {
+  min-width: 150px;
+}
+
 .mid-container {
   display: flex;
   flex-direction: column;
+  align-items: center;
   gap: 10px;
+  min-width: 350px;
 }
 
 .timer-container {
@@ -68,6 +74,11 @@ body {
   flex-direction: column;
   justify-content: center;
   align-items: center;
+  width: 350px;
+}
+
+.bid-tracker-slider {
+  width: 75%;
 }
 
 .words-list {
