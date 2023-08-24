@@ -14,6 +14,7 @@ export default function WordsList() {
     useEffect(() => {
         const fetchData = async () => {
             const data = await fetchWordsSet();
+            console.log(data);
             setWords(prev => [...prev, ...data]);
         }
         if (page >= words.length - NUMBER_OF_WORDS) {
@@ -31,8 +32,8 @@ export default function WordsList() {
     return (
         <div className='words-list'>
             <div className={`words-list-${blur ? 'spoiler' : 'reveal'}`} onClick={toggleBlur}>
-                {words.slice(page, page + NUMBER_OF_WORDS).map(word => 
-                    <div className='words-list-word' key={word}>{word}</div>
+                {words.slice(page, page + NUMBER_OF_WORDS).map((word,idx) => 
+                    <div className='words-list-word' key={word+idx}>{word}</div>
                 )}
             </div>
             <div className='words-list-next' onClick={onNextWords}>Next</div>
