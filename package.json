@@ -1,0 +1,20 @@
+{
+  "name": "@wabtytsai/few-word-do-trick",
+  "version": "1.0.0",
+  "description": "a game where you use as few words as you can",
+  "repository": "git@github.com:wabtytsai/few-word-do-trick.git",
+  "author": "Edward Tsai <edward.tsai.0091+github@gmail.com>",
+  "license": "MIT",
+  "private": true,
+  "workspaces": {
+    "packages": [
+      "workspaces/*"
+    ]
+  },
+  "scripts": {
+    "start:dev:client": "yarn workspace @few-word-do-trick/client start:dev",
+    "start:dev:server": "yarn workspace @few-word-do-trick/server start:dev",
+    "start:prod:client": "yarn workspace @few-word-do-trick/client start:prod",
+    "start:prod:server": "yarn workspace @few-word-do-trick/server start:prod"
+  }
+}
