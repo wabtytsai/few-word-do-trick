@@ -10,9 +10,10 @@
     "workspaces/*"
   ],
   "scripts": {
-    "dev": "npm-run-all --parallel start:dev:client start:dev:server",
-    "start:dev:client": "yarn workspace @few-word-do-trick/client dev",
-    "start:dev:server": "yarn workspace @few-word-do-trick/server start:dev",
+    "dev": "npm-run-all --parallel dev:client dev:server",
+    "test:build": "yarn build:client && yarn dev:server",
+    "dev:client": "yarn workspace @few-word-do-trick/client dev",
+    "dev:server": "yarn workspace @few-word-do-trick/server start:dev",
     "build:client": "yarn workspace @few-word-do-trick/client build"
   },
   "devDependencies": {
