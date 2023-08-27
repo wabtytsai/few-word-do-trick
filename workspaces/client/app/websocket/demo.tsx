@@ -1,46 +1,38 @@
 'use client'
 import React, { useState, useCallback, useEffect } from 'react';
-import useWebSocket, { ReadyState } from 'react-use-websocket';
+import io, {Socket} from "socket.io-client";
+import { ClientEvents } from '@shared/client/ClientEvents';
+import { ServerEvents } from '@shared/server/ServerEvents';
 
-const socketUrl = 'wss://localhost:4000/ping';
+const protocol = "http://"
+const socketUrl = '127.0.0.1:4000/';
 
 export const WebSocketDemo = () => {
-    const [messageHistory, setMessageHistory] = useState<any[]>([]);
-    const { sendMessage, lastMessage, readyState } = useWebSocket(socketUrl);
+    const [socket, setSocket] = useState<Socket | null>(null);
+    const [messages, setMessages] = useState<string[]>([]);
 
     useEffect(() => {
-        if (lastMessage !== null) {
-            setMessageHistory(prev => [...prev, lastMessage]);
-        }
-    }, [lastMessage, setMessageHistory]);
+        const socket = io(protocol + socketUrl);
+        setSocket(socket);
+        socket.on(ServerEvents.Pong, data => {
+            console.log('receive');
+            setMessages(prev => [...prev, data.message]);
+        });
 
-    const handleClickSendMessage = useCallback(() => sendMessage('ping'), []);
+        return () => {
+            socket.off(ServerEvents.Pong)
+        };
+    }, []);
 
-    const connectionStatus = {
-        [ReadyState.CONNECTING]: 'Connecting',
-        [ReadyState.OPEN]: 'Open',
-        [ReadyState.CLOSING]: 'Closing',
-        [ReadyState.CLOSED]: 'Closed',
-        [ReadyState.UNINSTANTIATED]: 'Uninstantiated',
-    }[readyState];
+    const sendMessage = () => {
+        console.log('send message');
+        socket?.emit(ClientEvents.Ping);
+    }
 
     return (
         <div>
-            <div>
-            <button
-                onClick={handleClickSendMessage}
-                disabled={readyState !== ReadyState.OPEN}
-            >
-                Click Me to send 'Ping'
-            </button>
-            </div>
-            <div>The WebSocket is currently {connectionStatus}</div>
-            {lastMessage ? <span>Last message: {lastMessage.data}</span> : null}
-            <ul>
-                {messageHistory.map((message, idx) => (
-                    <span key={idx}>{message ? message.data : null}</span>
-                ))}
-            </ul>
+            <div onClick={sendMessage}>Hello WebSockets!</div>
+            {messages.map(message => <div key={message}>{message}</div>)}
         </div>
-    );
+    )
 };

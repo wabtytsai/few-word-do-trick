@@ -10,7 +10,7 @@ import { Server, Socket } from 'socket.io';
 import { ClientEvents } from '@shared/client/ClientEvents';
 import { ServerEvents } from '@shared/server/ServerEvents';
 
-@WebSocketGateway()
+@WebSocketGateway({ cors: true })
 export class GameGateway implements
     OnGatewayInit,
     OnGatewayConnection,
@@ -29,6 +29,7 @@ export class GameGateway implements
     async handleConnection(client: Socket, ...args: any[]): Promise<void> {
         // Call initializers to set up socket
         // this.lobbyManager.initializeSocket(client as AuthenticatedSocket);
+        console.log('connection');
     }
 
     async handleDisconnect(client: Socket): Promise<void> {
@@ -38,6 +39,7 @@ export class GameGateway implements
 
     @SubscribeMessage(ClientEvents.Ping)
     onPing(client: Socket): void {
+        console.log('ping');
         client.emit(ServerEvents.Pong, {
             message: 'pong',
         });
