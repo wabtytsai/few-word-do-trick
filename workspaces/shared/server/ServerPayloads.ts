@@ -1,11 +1,6 @@
 import { ServerEvents } from './ServerEvents';
-// import { CardStateDefinition } from '../common/types';
 
 export type ServerPayloads = {
-    [ServerEvents.Pong]: {
-        message: string;
-    };
-
 //   [ServerEvents.LobbyState]: {
 //     lobbyId: string;
 //     mode: 'solo' | 'duo';
@@ -22,4 +17,9 @@ export type ServerPayloads = {
   [ServerEvents.GameMessage]: {
     message: string;
   };
+
+  [ServerEvents.LobbyCreated]: {
+    message: string;
+    lobbyID: string;
+  }
 };

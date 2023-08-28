@@ -20,7 +20,11 @@
     "noFallthroughCasesInSwitch": true,
     "paths": {
       "@shared/*": ["../../shared/*"],
-      "@server/*": ["./*"]
-    }
+      "@server/*": ["./*"],
+      "@game/*": ["./game/*"],
+      "@lobby/*": ["./game/lobby/*"],
+      "@words/*": ["./game/words/*"]
+    },
+    "resolveJsonModule": true
   }
 }
