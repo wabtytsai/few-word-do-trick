@@ -21,10 +21,9 @@
     "paths": {
       "@shared/*": ["../../shared/*"],
       "@server/*": ["./*"],
-      "@game/*": ["./game/*"],
-      "@lobby/*": ["./game/lobby/*"],
-      "@words/*": ["./game/words/*"]
+      "@game/*": ["./game/*"]
     },
-    "resolveJsonModule": true
+    "resolveJsonModule": true,
+    "esModuleInterop": true
   }
 }

@@ -22,4 +22,8 @@ export type ServerPayloads = {
     message: string;
     lobbyID: string;
   }
+
+  [ServerEvents.GameRefreshWords]: {
+    words: string[];
+  }
 };

@@ -9,5 +9,5 @@ export enum ClientEvents
   LobbyLeave = 'client.lobby.leave',
 
   // Game
-  GameRevealCard = 'client.game.reveal_card',
+  GameGetWords = 'client.game.get_words',
 }

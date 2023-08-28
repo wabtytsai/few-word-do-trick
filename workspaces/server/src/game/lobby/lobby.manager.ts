@@ -1,5 +1,5 @@
 import { Server } from "socket.io";
-import Lobby from "@lobby/lobby";
+import Lobby from "@game/lobby/lobby";
 import { AuthSocket } from "@server/game/auth-socket";
 import { Cron, CronExpression } from '@nestjs/schedule';
 import { LOBBY_MAX_LIFETIME_HOUR } from "@game/constants";

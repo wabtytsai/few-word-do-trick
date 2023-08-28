@@ -13,7 +13,7 @@ import { ClientEvents } from '@shared/client/ClientEvents';
 import { ServerEvents } from '@shared/server/ServerEvents';
 import { ServerPayloads } from '@shared/server/ServerPayloads';
 import { Logger } from '@nestjs/common';
-import LobbyManager from '@lobby/lobby.manager';
+import LobbyManager from '@game/lobby/lobby.manager';
 import { AuthSocket } from '@server/game/auth-socket';
 
 @WebSocketGateway({ cors: true })
@@ -96,5 +96,11 @@ export class GameGateway implements
                 message: 'Left lobby',
             }
         }
+    }
+
+    @SubscribeMessage(ClientEvents.GameGetWords)
+    onGameGetWords(client: AuthSocket): void {
+        const words = client.data.lobby.instance.refreshWords();
+        this.logger.log('Got new words', client.data.lobby, words);
     }
 }

@@ -1,7 +1,8 @@
 import { v4 } from 'uuid';
 import { Server, Socket } from 'socket.io';
 import { AuthSocket } from '@server/game/auth-socket';
-import Instance from '@game/instance';
+import GameInstance from '@server/game/game.instance';
+import { ServerEvents } from '@shared/server/ServerEvents';
 
 type Key = Socket['id'];
 
@@ -11,7 +12,7 @@ export default class Lobby {
     public readonly id: string = v4().slice(0, ID_LENGTH);
     public readonly createdDate: Date = new Date();
     public readonly clients: Map<Key, AuthSocket> = new Map<Key, AuthSocket>();
-    public readonly instance: Instance = new Instance(this);
+    public readonly instance: GameInstance = new GameInstance(this);
 
     constructor(private readonly server: Server) {}
 
@@ -29,5 +30,9 @@ export default class Lobby {
         client.data.lobby = null;
 
         // TODO: emit event to all clients
+    }
+
+    public emitToClients<T>(event: ServerEvents, payload: T): void {
+        this.server.to(this.id).emit(event, payload);
     }
 }
