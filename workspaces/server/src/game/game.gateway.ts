@@ -12,6 +12,7 @@ import { Server, Socket } from 'socket.io';
 import { ClientEvents } from '@shared/client/ClientEvents';
 import { ServerEvents } from '@shared/server/ServerEvents';
 import { ServerPayloads } from '@shared/server/ServerPayloads';
+import { TimerEvents } from '@shared/common/TimerEvents';
 import { Logger } from '@nestjs/common';
 import LobbyManager from '@game/lobby/lobby.manager';
 import { AuthSocket } from '@server/game/auth-socket';
@@ -53,7 +54,7 @@ export class GameGateway implements
 
     @SubscribeMessage(ClientEvents.LobbyCreate)
     onLobbyCreate(client: AuthSocket): 
-    WsResponse<ServerPayloads[ServerEvents.LobbyCreated]> {
+    WsResponse<ServerPayloads[ServerEvents.LobbyJoined]> {
         const lobby = this.lobbyManager.createLobby();
         lobby.addClient(client);
 
@@ -70,15 +71,17 @@ export class GameGateway implements
 
     @SubscribeMessage(ClientEvents.LobbyJoin)
     onLobbyJoin(@ConnectedSocket() client: AuthSocket, @MessageBody('lobbyID') lobbyID: string): 
-    WsResponse<ServerPayloads[ServerEvents.GameMessage]> {
+    WsResponse<ServerPayloads[ServerEvents.LobbyJoined]> {
+        console.log('join', lobbyID);
         this.lobbyManager.joinLobby(lobbyID, client);
 
         this.logger.log('Lobby joined', lobbyID, client);
 
         return {
-            event: ServerEvents.GameMessage,
+            event: ServerEvents.LobbyJoined,
             data: {
                 message: 'Joined lobby',
+                lobbyID,
             }
         }
     }
@@ -98,6 +101,9 @@ export class GameGateway implements
         }
     }
 
+
+    // Propagate events //
+
     @SubscribeMessage(ClientEvents.GameGetWords)
     onGameGetWords(@ConnectedSocket() client: AuthSocket): void {
         const words = client.data.lobby.instance.refreshWords();
@@ -116,10 +122,9 @@ export class GameGateway implements
     @SubscribeMessage(ClientEvents.GameUpdateTimer)
     onGameUpdateTimer(
         @ConnectedSocket() client: AuthSocket, 
-        @MessageBody('time') time: number,
-        @MessageBody('isTimerRunning') isTimerRunning: boolean,
+        @MessageBody('event') event: TimerEvents,
     ): void {
-        const bid = client.data.lobby.instance.updateTimer(time, isTimerRunning);
-        this.logger.log('Updated timer', client.data.lobby, time, isTimerRunning);
+        const bid = client.data.lobby.instance.updateTimer(event);
+        this.logger.log('Updated timer', client.data.lobby, event);
     }
 }

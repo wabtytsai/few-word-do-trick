@@ -2,6 +2,7 @@ import Lobby from "@game/lobby/lobby";
 import { PRNG } from 'seedrandom';
 import words from '@game/words.json'
 import { ServerEvents } from "@shared/server/ServerEvents";
+import { TimerEvents } from "@shared/common/TimerEvents";
 const seedrandom = require('seedrandom');
 
 const PAGE_SIZE = 5;
@@ -10,8 +11,6 @@ const BID_MIN = 0;
 
 export default class GameInstance {
     public bid: number = 25;
-    public isTimerRunning: boolean = false;
-    public time: number = 45;
 
     private rng: PRNG;
     private words: string[];
@@ -51,10 +50,8 @@ export default class GameInstance {
         return this.bid;
     }
 
-    public updateTimer(time: number, isTimerRunning: boolean): void {
-        this.time = time;
-        this.isTimerRunning = isTimerRunning;
-        const payload = { time, isTimerRunning };
+    public updateTimer(event: TimerEvents): void {
+        const payload = { event };
         this.lobby.emitToClients(ServerEvents.GameTimerUpdate, payload);
     }
 }

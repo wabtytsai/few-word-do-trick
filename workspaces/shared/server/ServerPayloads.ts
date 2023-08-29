@@ -5,7 +5,7 @@ export type ServerPayloads = {
     message: string;
   };
 
-  [ServerEvents.LobbyCreated]: {
+  [ServerEvents.LobbyJoined]: {
     message: string;
     lobbyID: string;
   };

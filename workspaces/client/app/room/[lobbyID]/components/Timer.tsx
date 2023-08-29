@@ -1,11 +1,17 @@
 'use client' 
 
+import { useSocket } from '@client/app/socket/SocketProvider';
+import { ServerEvents } from '@shared/server/ServerEvents';
+import { TimerEvents } from '@shared/common/TimerEvents';
 import { useCallback, useEffect, useState } from 'react';
+import { ClientEvents } from '@shared/client/ClientEvents';
 
 const TICK_IN_MS = 1000;
+const DEFAULT_TIME = 45;
 
 export default function Timer() {
-    const [timer, setTimer] = useState(45);
+    const socket = useSocket();
+    const [timer, setTimer] = useState(DEFAULT_TIME);
     const [running, setRunning] = useState(false);
 
     const tick = useCallback(() => {
@@ -28,11 +34,41 @@ export default function Timer() {
         return () => clearInterval(id);
     }, [tick]);
 
+    useEffect(() => {
+        socket.on(ServerEvents.GameTimerUpdate, data => {
+            const event: TimerEvents = data.event;
+            switch (event) {
+                case TimerEvents.Start: {
+                    setRunning(true);
+                    break;
+                }
+                case TimerEvents.Pause: {
+                    setRunning(false);
+                    break;
+                }
+                case TimerEvents.Reset: {
+                    setRunning(false);
+                    setTimer(DEFAULT_TIME);
+                    break;
+                }
+            }
+        });
+    }, []);
+
     const resetTimer = () => {
-        setTimer(45);
+        socket.emit(ClientEvents.GameUpdateTimer, {
+            event: TimerEvents.Reset,
+        });
         setRunning(false);
-    }
-    const toggleTimer = () => setRunning(prev => !prev);
+        setTimer(DEFAULT_TIME);
+    };
+
+    const toggleTimer = () => {
+        socket.emit(ClientEvents.GameUpdateTimer, {
+            event: running ? TimerEvents.Pause : TimerEvents.Start,
+        });
+        setRunning(prev => !prev);
+    };
 
     return (
         <div className='timer-container'>
