@@ -85,10 +85,15 @@ body {
   display: flex;
   flex-direction: column;
   gap: 20px;
+  text-align: center;
 }
 
-.words-list-spoiler {
-  filter: blur(1rem);
+.words-list-container {
+  height: 120px;
+}
+
+.words-list-reveal {
+  padding-top: 60px;
 }
 
 .words-list-word {

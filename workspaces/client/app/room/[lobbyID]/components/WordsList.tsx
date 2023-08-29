@@ -8,7 +8,7 @@ import { ServerEvents } from '@shared/server/ServerEvents';
 export default function WordsList() {
     const socket = useSocket();
     const [words, setWords] = useState<string[]>([]);
-    const [blur, setBlur] = useState(true);
+    const [isHidden, setIsHidden] = useState(true);
 
     useEffect(() => {
         socket.on(ServerEvents.GameWordsUpdate, data => {
@@ -16,18 +16,23 @@ export default function WordsList() {
         })
     }, []);
 
-    const toggleBlur = () => setBlur(prev => !prev);
+    const toggleHide = () => setIsHidden(prev => !prev);
     const onNextWords = () => {
-        setBlur(true);
+        setIsHidden(true);
         socket.emit(ClientEvents.GameGetWords);
     }
 
     return (
         <div className='words-list'>
-            <div className={`words-list-${blur ? 'spoiler' : 'reveal'}`} onClick={toggleBlur}>
-                {words.map((word,idx) => 
-                    <div className='words-list-word' key={word+idx}>{word}</div>
-                )}
+            <div className='words-list-container' onClick={toggleHide}>
+                {isHidden ? 
+                    <div className='words-list-reveal'>
+                        Click to Reveal
+                    </div> :
+                    <div>{words.map((word, idx) =>
+                        <div className='words-list-word' key={word + idx}>{word}</div>
+                    )}</div>
+                }
             </div>
             <div className='words-list-next' onClick={onNextWords}>Next</div>
         </div>
