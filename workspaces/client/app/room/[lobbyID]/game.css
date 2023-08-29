@@ -33,9 +33,9 @@ body {
 }
 
 .header {
-  /* margin: auto;
-  width: 50%; */
   text-align: center;
+  margin-top: 20px;
+  margin-bottom: 40px;
 }
 
 .app-container {
@@ -60,6 +60,7 @@ body {
   display: flex;
   flex-direction: row;
   gap: 10px;
+  align-items: center;
 }
 
 .bid-tracker {
@@ -86,10 +87,11 @@ body {
   flex-direction: column;
   gap: 20px;
   text-align: center;
+  align-items: center;
 }
 
 .words-list-container {
-  height: 120px;
+  height: 140px;
 }
 
 .words-list-reveal {

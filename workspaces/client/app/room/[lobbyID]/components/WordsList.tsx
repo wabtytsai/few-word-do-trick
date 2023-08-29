@@ -1,5 +1,6 @@
 'use client'
 
+import { Button, Text, Paper } from '@mantine/core';
 import { useEffect, useState } from 'react';
 import { useSocket } from '@client/app/socket/SocketProvider';
 import { ClientEvents } from '@shared/client/ClientEvents';
@@ -25,16 +26,19 @@ export default function WordsList() {
     return (
         <div className='words-list'>
             <div className='words-list-container' onClick={toggleHide}>
-                {isHidden ? 
-                    <div className='words-list-reveal'>
-                        Click to Reveal
-                    </div> :
-                    <div>{words.map((word, idx) =>
-                        <div className='words-list-word' key={word + idx}>{word}</div>
-                    )}</div>
-                }
+                <Paper shadow="md" radius="md" p="md">
+                    {isHidden ?
+                        <Text>Click to Reveal</Text>
+                        :
+                        <>{words.map((word, idx) =>
+                            <Text className='words-list-word' key={word + idx}>{word}</Text>
+                        )}</>
+                    }
+                </Paper>
             </div>
-            <div className='words-list-next' onClick={onNextWords}>Next</div>
+            <div className='words-list-next' onClick={onNextWords}>
+                <Button color="indigo" radius="md" size="sm">Next</Button>
+            </div>
         </div>
     )
 }

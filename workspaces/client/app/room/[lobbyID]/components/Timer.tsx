@@ -1,5 +1,10 @@
 'use client' 
 
+import { 
+    BsFillPauseCircleFill, 
+    BsFillPlayCircleFill,
+    BsFillStopCircleFill,
+} from 'react-icons/bs';
 import { useSocket } from '@client/app/socket/SocketProvider';
 import { ServerEvents } from '@shared/server/ServerEvents';
 import { TimerEvents } from '@shared/common/TimerEvents';
@@ -72,11 +77,13 @@ export default function Timer() {
 
     return (
         <div className='timer-container'>
-            <div className='timer'>{timer}</div>
+            <div className='timer'>{timer}s</div>
             <div className='timer-start-pause' onClick={toggleTimer}>
-                {running ? "pause" : "start"}
+                {running ? <BsFillPauseCircleFill size={24} /> : <BsFillPlayCircleFill size={24} />}
             </div>
-            <div className='timer-reset' onClick={resetTimer}>reset</div>
+            <div className='timer-reset' onClick={resetTimer}>
+                <BsFillStopCircleFill size={24} />
+            </div>
         </div>
     );
 }

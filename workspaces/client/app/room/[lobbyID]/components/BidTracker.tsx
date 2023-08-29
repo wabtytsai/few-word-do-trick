@@ -1,5 +1,10 @@
 'use client'
-import { useCallback, useEffect, useState } from 'react';
+
+import { 
+    AiFillMinusCircle, 
+    AiFillPlusCircle
+} from 'react-icons/ai';
+import { useEffect, useState } from 'react';
 import { Slider } from '@mantine/core';
 import { useSocket } from '@client/app/socket/SocketProvider';
 import { ServerEvents } from '@shared/server/ServerEvents';
@@ -34,7 +39,9 @@ export default function BidTracker() {
 
     return (
         <div className="bid-tracker">
-            <div className='bid-tracker-minus' onClick={decrement}>-</div>
+            <div className='bid-tracker-minus' onClick={decrement}>
+                <AiFillMinusCircle />
+            </div>
             <div className='bid-tracker-bid-container'>
                 <div className='bid-tracker-bid'>{bid}</div>
                 <div className='bid-tracker-slider'>
@@ -48,7 +55,9 @@ export default function BidTracker() {
                         marks={marks} />
                 </div>
             </div>
-            <div className='bid-tracker-plus' onClick={increment}>+</div>
+            <div className='bid-tracker-plus' onClick={increment}>
+                <AiFillPlusCircle />
+            </div>
         </div>
     )
 }
