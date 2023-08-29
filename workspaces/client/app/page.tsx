@@ -1,8 +1,9 @@
-import Image from 'next/image'
-import { WebSocketDemo } from './websocket/demo'
+import Link from 'next/link'
 
 export default function Home() {
   return (
-    <WebSocketDemo />
+    <div className='app'>
+      <Link href="/test">Click Me</Link>
+    </div>
   )
 }

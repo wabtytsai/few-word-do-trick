@@ -3,7 +3,6 @@ import React, { useState, useCallback, useEffect } from 'react';
 import io, { Socket } from "socket.io-client";
 import { ClientEvents } from '@shared/client/ClientEvents';
 import { ServerEvents } from '@shared/server/ServerEvents';
-import { Server } from 'http';
 
 const protocol = "http://"
 const socketUrl = '127.0.0.1:4000/';

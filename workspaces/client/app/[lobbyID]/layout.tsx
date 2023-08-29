@@ -1,4 +1,4 @@
-import './globals.css'
+import './game.css'
 import type { Metadata } from 'next'
 import { Inter } from 'next/font/google'
 
@@ -6,7 +6,7 @@ const inter = Inter({ subsets: ['latin'] })
 
 export const metadata: Metadata = {
   title: 'Few Word Do Trick',
-  description: 'Why waste time say lot word',
+  description: 'A game in session',
 }
 
 export default function RootLayout({
