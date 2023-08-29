@@ -51,17 +51,19 @@ export class GameGateway implements
         this.logger.log('Pong', client);
     }
 
-    @SubscribeMessage(ClientEvents.LobbyCreateOrJoin)
-    onLobbyCreateOrJoin(@ConnectedSocket() client: AuthSocket, @MessageBody('lobbyID') lobbyID: string): 
-    WsResponse<ServerPayloads[ServerEvents.GameMessage]> {
-        this.lobbyManager.createOrGetLobby(lobbyID, client);
+    @SubscribeMessage(ClientEvents.LobbyCreate)
+    onLobbyCreate(client: AuthSocket): 
+    WsResponse<ServerPayloads[ServerEvents.LobbyCreated]> {
+        const lobby = this.lobbyManager.createLobby();
+        lobby.addClient(client);
 
-        this.logger.log('Lobby Created or Joined', client);
+        this.logger.log('Lobby created', lobby, client);
 
         return {
-            event: ServerEvents.GameMessage,
+            event: ServerEvents.LobbyCreated,
             data: {
-                message: 'Created or joined lobby'
+                message: 'Created lobby',
+                lobbyID: lobby.id,
             }
         };
     }
@@ -103,8 +105,21 @@ export class GameGateway implements
     }
 
     @SubscribeMessage(ClientEvents.GameSetBid)
-    onGameSetBid(@ConnectedSocket() client: AuthSocket, @MessageBody('bidNumber') bidNumber: number): void {
-        const bid = client.data.lobby.instance.updateBidNumber(bidNumber);
-        this.logger.log('Updated bid', client.data.lobby, bid);
+    onGameSetBid(
+        @ConnectedSocket() client: AuthSocket, 
+        @MessageBody('bid') bid: number
+    ): void {
+        const updatedBid = client.data.lobby.instance.updateBid(bid);
+        this.logger.log('Updated bid', client.data.lobby, updatedBid);
+    }
+
+    @SubscribeMessage(ClientEvents.GameUpdateTimer)
+    onGameUpdateTimer(
+        @ConnectedSocket() client: AuthSocket, 
+        @MessageBody('time') time: number,
+        @MessageBody('isTimerRunning') isTimerRunning: boolean,
+    ): void {
+        const bid = client.data.lobby.instance.updateTimer(time, isTimerRunning);
+        this.logger.log('Updated timer', client.data.lobby, time, isTimerRunning);
     }
 }

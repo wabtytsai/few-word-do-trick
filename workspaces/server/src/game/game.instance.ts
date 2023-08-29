@@ -9,9 +9,9 @@ const BID_MAX = 25;
 const BID_MIN = 0;
 
 export default class GameInstance {
-    public bidNumber: number = 25;
+    public bid: number = 25;
     public isTimerRunning: boolean = false;
-    public timer: number = 45;
+    public time: number = 45;
 
     private rng: PRNG;
     private words: string[];
@@ -44,10 +44,17 @@ export default class GameInstance {
         return currentWords;
     }
 
-    public updateBidNumber(bidNumber: number): number {
-        this.bidNumber = Math.min(Math.max(bidNumber, BID_MIN), BID_MAX);
-        const payload = { bidNumber: this.bidNumber }
+    public updateBid(bid: number): number {
+        this.bid = Math.min(Math.max(bid, BID_MIN), BID_MAX);
+        const payload = { bid: this.bid };
         this.lobby.emitToClients(ServerEvents.GameBidUpdate, payload);
-        return this.bidNumber;
+        return this.bid;
+    }
+
+    public updateTimer(time: number, isTimerRunning: boolean): void {
+        this.time = time;
+        this.isTimerRunning = isTimerRunning;
+        const payload = { time, isTimerRunning };
+        this.lobby.emitToClients(ServerEvents.GameTimerUpdate, payload);
     }
 }

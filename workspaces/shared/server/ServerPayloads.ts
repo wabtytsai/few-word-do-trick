@@ -5,6 +5,11 @@ export type ServerPayloads = {
     message: string;
   };
 
+  [ServerEvents.LobbyCreated]: {
+    message: string;
+    lobbyID: string;
+  };
+
   [ServerEvents.GameWordsUpdate]: {
     words: string[];
   }

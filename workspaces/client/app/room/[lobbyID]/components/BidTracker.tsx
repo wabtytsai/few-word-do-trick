@@ -1,6 +1,9 @@
 'use client'
-import { useState } from 'react';
+import { useCallback, useEffect, useState } from 'react';
 import { Slider } from '@mantine/core';
+import { useSocket } from '@client/app/socket/SocketProvider';
+import { ServerEvents } from '@shared/server/ServerEvents';
+import { ClientEvents } from '@shared/client/ClientEvents';
 
 const STARTING_BID = 25;
 
@@ -11,12 +14,19 @@ const marks = [
     { value: 20, label: '20' },
   ];
 
-type Props = {
-    bid: number,
-    updateBid: (bid: number) => void,
-}
+export default function BidTracker() {
+    const socket = useSocket();
+    const [bid, setBid] = useState<number>(25);
 
-export default function BidTracker({ bid, updateBid }: Props) {
+    useEffect(() => {
+        socket.on(ServerEvents.GameBidUpdate, data => {
+            setBid(data.bid);
+        });
+    }, []);
+
+    const updateBid = (bid: number) => {
+        socket.emit(ClientEvents.GameSetBid, { bid })
+    }
 
     const increment = () => updateBid(bid + 1);
 

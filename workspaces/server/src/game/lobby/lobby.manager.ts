@@ -18,13 +18,9 @@ export default class LobbyManager {
         client.data.lobby?.removeClient(client);
     }
 
-    public createOrGetLobby(lobbyID: string, client: AuthSocket): Lobby {
-        let lobby = this.lobbies.get(lobbyID);
-        if (lobby === undefined) {
-            lobby = new Lobby(this.server, lobbyID);
-            this.lobbies.set(lobbyID, lobby);
-        }
-        lobby.addClient(client);
+    public createLobby(): Lobby {
+        const lobby = new Lobby(this.server);
+        this.lobbies.set(lobby.id, lobby);
         return lobby;
     }
 

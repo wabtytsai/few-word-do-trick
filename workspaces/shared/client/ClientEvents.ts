@@ -1,14 +1,14 @@
-export enum ClientEvents
-{
+export enum ClientEvents {
   // General
   Ping = 'client.ping',
 
   // Lobby
-  LobbyCreateOrJoin = 'client.lobby.create-or-join',
+  LobbyCreate = 'client.lobby.create',
   LobbyJoin = 'client.lobby.join',
   LobbyLeave = 'client.lobby.leave',
 
   // Game
-  GameGetWords = 'client.game.get_words',
-  GameSetBid = 'client.game.set_bid',
+  GameGetWords = 'client.game.get-words',
+  GameSetBid = 'client.game.set-bid',
+  GameUpdateTimer = 'client.game.update-timer',
 }

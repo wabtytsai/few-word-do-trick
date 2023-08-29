@@ -1,23 +1,25 @@
 'use client'
 
 import { useEffect, useState } from 'react';
+import { useSocket } from '@client/app/socket/SocketProvider';
+import { ClientEvents } from '@shared/client/ClientEvents';
+import { ServerEvents } from '@shared/server/ServerEvents';
 
-import fetchWordsSet from '../utils/fetchWordsSet';
-
-const NUMBER_OF_WORDS = 5;
-
-type Props = {
-    words: string[],
-    getNewWords: () => void,
-}
-
-export default function WordsList({ words, getNewWords }: Props) {
+export default function WordsList() {
+    const socket = useSocket();
+    const [words, setWords] = useState<string[]>([]);
     const [blur, setBlur] = useState(true);
+
+    useEffect(() => {
+        socket.on(ServerEvents.GameWordsUpdate, data => {
+            setWords(data.words);
+        })
+    }, []);
 
     const toggleBlur = () => setBlur(prev => !prev);
     const onNextWords = () => {
         setBlur(true);
-        getNewWords();
+        socket.emit(ClientEvents.GameGetWords);
     }
 
     return (
