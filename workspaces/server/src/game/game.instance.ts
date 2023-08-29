@@ -38,7 +38,13 @@ export default class GameInstance {
         const currentWords = this.words.slice(this.page, this.page + PAGE_SIZE);
         const payload = { words: currentWords };
         this.page += PAGE_SIZE;
-        this.lobby.emitToClients(ServerEvents.GameRefreshWords, payload);
+        this.lobby.emitToClients(ServerEvents.GameWordsUpdate, payload);
         return currentWords;
+    }
+
+    public updateBidNumber(bidNumber: number): void {
+        this.bidNumber = bidNumber;
+        const payload = { bidNumber }
+        this.lobby.emitToClients(ServerEvents.GameBidUpdate, payload);
     }
 }

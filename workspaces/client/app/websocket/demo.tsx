@@ -30,7 +30,7 @@ export const WebSocketDemo = () => {
             setMessages(prev => [data.message, ...prev]);
         });
 
-        socket.on(ServerEvents.GameRefreshWords, data => {
+        socket.on(ServerEvents.GameWordsUpdate, data => {
             setWords(data.words);
         })
 

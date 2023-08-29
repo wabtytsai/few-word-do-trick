@@ -10,4 +10,5 @@ export enum ClientEvents
 
   // Game
   GameGetWords = 'client.game.get_words',
+  GameSetBid = 'client.game.set_bid',
 }

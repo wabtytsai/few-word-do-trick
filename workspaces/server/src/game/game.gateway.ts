@@ -103,4 +103,10 @@ export class GameGateway implements
         const words = client.data.lobby.instance.refreshWords();
         this.logger.log('Got new words', client.data.lobby, words);
     }
+
+    @SubscribeMessage(ClientEvents.GameSetBid)
+    onGameSetBid(client: AuthSocket, @MessageBody('bidNumber') bidNumber: number): void {
+        client.data.lobby.instance.updateBidNumber(bidNumber);
+        this.logger.log('Updated bid', client.data.lobby, bidNumber);
+    }
 }

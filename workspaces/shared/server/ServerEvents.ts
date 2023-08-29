@@ -9,5 +9,6 @@ export enum ServerEvents
 
   // Game
   GameMessage = 'server.game.message',
-  GameRefreshWords = 'server.game.refresh-words',
+  GameWordsUpdate = 'server.game.words.update',
+  GameBidUpdate = 'server.game.bid.update',
 }
