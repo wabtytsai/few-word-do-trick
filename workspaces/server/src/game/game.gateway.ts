@@ -97,14 +97,14 @@ export class GameGateway implements
     }
 
     @SubscribeMessage(ClientEvents.GameGetWords)
-    onGameGetWords(client: AuthSocket): void {
+    onGameGetWords(@ConnectedSocket() client: AuthSocket): void {
         const words = client.data.lobby.instance.refreshWords();
         this.logger.log('Got new words', client.data.lobby, words);
     }
 
     @SubscribeMessage(ClientEvents.GameSetBid)
-    onGameSetBid(client: AuthSocket, @MessageBody('bidNumber') bidNumber: number): void {
-        client.data.lobby.instance.updateBidNumber(bidNumber);
-        this.logger.log('Updated bid', client.data.lobby, bidNumber);
+    onGameSetBid(@ConnectedSocket() client: AuthSocket, @MessageBody('bidNumber') bidNumber: number): void {
+        const bid = client.data.lobby.instance.updateBidNumber(bidNumber);
+        this.logger.log('Updated bid', client.data.lobby, bid);
     }
 }

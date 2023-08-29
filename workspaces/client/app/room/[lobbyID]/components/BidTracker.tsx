@@ -11,12 +11,16 @@ const marks = [
     { value: 20, label: '20' },
   ];
 
-export default function BidTracker() {
-    const [bid, setBid] = useState(STARTING_BID);
+type Props = {
+    bid: number,
+    updateBid: (bid: number) => void,
+}
 
-    const increment = () => setBid(prev => prev < 25 ? prev + 1 : prev);
+export default function BidTracker({ bid, updateBid }: Props) {
 
-    const decrement = () => setBid(prev => prev > 0 ? prev - 1 : prev);
+    const increment = () => updateBid(bid + 1);
+
+    const decrement = () => updateBid(bid - 1);
 
     return (
         <div className="bid-tracker">
@@ -26,7 +30,7 @@ export default function BidTracker() {
                 <div className='bid-tracker-slider'>
                     <Slider 
                         value={bid}
-                        onChange={setBid}
+                        onChange={updateBid}
                         label={null}
                         size="sm"
                         max={STARTING_BID}

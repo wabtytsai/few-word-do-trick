@@ -13,7 +13,7 @@ const SOCKET_URL = '127.0.0.1:4000/';
 
 export default function Home() {
   const { lobbyID } = useParams();
-  const { words, getNewWords } = useWebSocket(
+  const { words, getNewWords, bid, updateBid } = useWebSocket(
     PROTOCOL + SOCKET_URL, 
     lobbyID as string);
 
@@ -30,7 +30,7 @@ export default function Home() {
         <div className='mid-container'>
           <Timer />
           <WordsList words={words} getNewWords={getNewWords} />
-          <BidTracker />
+          <BidTracker bid={bid} updateBid={updateBid} />
         </div>
         <div className='right-container'>
           <TeamTracker members={['Team 2']} />

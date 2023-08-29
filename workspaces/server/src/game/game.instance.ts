@@ -5,6 +5,8 @@ import { ServerEvents } from "@shared/server/ServerEvents";
 const seedrandom = require('seedrandom');
 
 const PAGE_SIZE = 5;
+const BID_MAX = 25;
+const BID_MIN = 0;
 
 export default class GameInstance {
     public bidNumber: number = 25;
@@ -42,9 +44,10 @@ export default class GameInstance {
         return currentWords;
     }
 
-    public updateBidNumber(bidNumber: number): void {
-        this.bidNumber = bidNumber;
-        const payload = { bidNumber }
+    public updateBidNumber(bidNumber: number): number {
+        this.bidNumber = Math.min(Math.max(bidNumber, BID_MIN), BID_MAX);
+        const payload = { bidNumber: this.bidNumber }
         this.lobby.emitToClients(ServerEvents.GameBidUpdate, payload);
+        return this.bidNumber;
     }
 }
