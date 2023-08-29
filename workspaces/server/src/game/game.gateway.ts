@@ -51,19 +51,17 @@ export class GameGateway implements
         this.logger.log('Pong', client);
     }
 
-    @SubscribeMessage(ClientEvents.LobbyCreate)
-    onLobbyCreate(client: AuthSocket): 
-    WsResponse<ServerPayloads[ServerEvents.LobbyCreated]> {
-        const lobby = this.lobbyManager.createLobby();
-        lobby.addClient(client);
+    @SubscribeMessage(ClientEvents.LobbyCreateOrJoin)
+    onLobbyCreateOrJoin(@ConnectedSocket() client: AuthSocket, @MessageBody('lobbyID') lobbyID: string): 
+    WsResponse<ServerPayloads[ServerEvents.GameMessage]> {
+        this.lobbyManager.createOrGetLobby(lobbyID, client);
 
-        this.logger.log('Lobby Created', lobby.id, client);
+        this.logger.log('Lobby Created or Joined', client);
 
         return {
-            event: ServerEvents.LobbyCreated,
+            event: ServerEvents.GameMessage,
             data: {
-                message: 'Lobby created',
-                lobbyID: lobby.id,
+                message: 'Created or joined lobby'
             }
         };
     }

@@ -1,11 +1,22 @@
+'use client'
+
 import BidTracker from './components/BidTracker';
 import LobbyName from './components/LobbyName';
 import TeamTracker from './components/TeamTracker';
 import Timer from './components/Timer';
 import WordsList from './components/WordsList';
+import useWebSocket from '@client/app/websocket/useWebSocket';
+import { useParams } from 'next/navigation';
+
+const PROTOCOL = "http://"
+const SOCKET_URL = '127.0.0.1:4000/';
 
 export default function Home() {
-  const words = ['apple', 'mailbox', 'membership', 'microwave', 'anime'];
+  const { lobbyID } = useParams();
+  const { words, getNewWords } = useWebSocket(
+    PROTOCOL + SOCKET_URL, 
+    lobbyID as string);
+
   return (
     <div className='app'>
       <div className='header'>
@@ -18,7 +29,7 @@ export default function Home() {
         </div>
         <div className='mid-container'>
           <Timer />
-          <WordsList />
+          <WordsList words={words} getNewWords={getNewWords} />
           <BidTracker />
         </div>
         <div className='right-container'>

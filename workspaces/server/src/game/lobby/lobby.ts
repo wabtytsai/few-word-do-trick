@@ -1,4 +1,3 @@
-import { v4 } from 'uuid';
 import { Server, Socket } from 'socket.io';
 import { AuthSocket } from '@server/game/auth-socket';
 import GameInstance from '@server/game/game.instance';
@@ -6,15 +5,12 @@ import { ServerEvents } from '@shared/server/ServerEvents';
 
 type Key = Socket['id'];
 
-const ID_LENGTH = 8;
-
 export default class Lobby {
-    public readonly id: string = v4().slice(0, ID_LENGTH);
     public readonly createdDate: Date = new Date();
     public readonly clients: Map<Key, AuthSocket> = new Map<Key, AuthSocket>();
     public readonly instance: GameInstance = new GameInstance(this);
 
-    constructor(private readonly server: Server) {}
+    constructor(private readonly server: Server, public readonly id: string) {}
 
     public addClient(client: AuthSocket): void {
         this.clients.set(client.id, client);
