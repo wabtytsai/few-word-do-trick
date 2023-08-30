@@ -36,7 +36,7 @@ export class GameGateway implements
 
     async handleConnection(client: Socket, ...args: any[]): Promise<void> {
         this.lobbyManager.initializeSocket(client as AuthSocket);
-        this.logger.log('Handled connection', client);
+        this.logger.log('Handled connection', client.id);
     }
 
     async handleDisconnect(client: AuthSocket): Promise<void> {

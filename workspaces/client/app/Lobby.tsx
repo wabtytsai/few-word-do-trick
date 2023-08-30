@@ -21,9 +21,10 @@ export default function Lobby() {
             const { lobbyID } = data;
             router.push('/room/' + lobbyID);
         });
-    }, []);
+    }, [socket, router]);
 
     const onCreateLobby = () => {
+        console.log('create lobby');
         socket.emit(ClientEvents.LobbyCreate);
     }
 
@@ -34,7 +35,7 @@ export default function Lobby() {
     return (
         <div>
             <div className='app-create-lobby' onClick={onCreateLobby}>
-            Create Lobby
+                Create Lobby
             </div>
             <div>
                 <input value={lobbyID} onChange={e => setLobbyID(e.target.value)} />

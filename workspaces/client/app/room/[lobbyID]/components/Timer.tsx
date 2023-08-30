@@ -58,7 +58,7 @@ export default function Timer() {
                 }
             }
         });
-    }, []);
+    }, [socket]);
 
     const resetTimer = () => {
         socket.emit(ClientEvents.GameUpdateTimer, {

@@ -27,7 +27,7 @@ export default function BidTracker() {
         socket.on(ServerEvents.GameBidUpdate, data => {
             setBid(data.bid);
         });
-    }, []);
+    }, [socket]);
 
     const updateBid = (bid: number) => {
         socket.emit(ClientEvents.GameSetBid, { bid })

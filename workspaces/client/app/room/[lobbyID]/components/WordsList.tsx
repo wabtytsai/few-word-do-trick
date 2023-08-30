@@ -15,7 +15,7 @@ export default function WordsList() {
         socket.on(ServerEvents.GameWordsUpdate, data => {
             setWords(data.words);
         })
-    }, []);
+    }, [socket]);
 
     const toggleHide = () => setIsHidden(prev => !prev);
     const onNextWords = () => {
