@@ -11,8 +11,8 @@
   ],
   "scripts": {
     "dev": "npm-run-all --parallel dev:client dev:server",
-    "build": "yarn build:client && yarn build:server",
-    "start": "yarn start:client && yarn start:server",
+    "build": "yarn build:client",
+    "start": "yarn start:client",
     "test:build": "yarn build:client && yarn dev:server",
     "dev:client": "yarn workspace @few-word-do-trick/client dev",
     "dev:server": "yarn workspace @few-word-do-trick/server start:dev",
