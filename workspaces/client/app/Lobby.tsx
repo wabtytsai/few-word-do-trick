@@ -1,5 +1,6 @@
 'use client'
 
+import { Button } from '@mantine/core';
 import { useRouter } from 'next/navigation';
 import { useSocket } from './socket/SocketProvider';
 import { ServerEvents } from '@shared/server/ServerEvents';
@@ -34,12 +35,14 @@ export default function Lobby() {
 
     return (
         <div>
-            <div className='app-create-lobby' onClick={onCreateLobby}>
+            <Button color="indigo" radius="md" size="xs" onClick={onCreateLobby}>
                 Create Lobby
-            </div>
+            </Button>
             <div>
                 <input value={lobbyID} onChange={e => setLobbyID(e.target.value)} />
-                <span onClick={onJoinLobby}>Join Lobby</span>
+                <Button color="indigo" radius="md" size="xs" onClick={onJoinLobby}>
+                    Join Lobby
+                </Button>
             </div>
         </div>
     )

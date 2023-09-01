@@ -31,6 +31,7 @@ export default function BidTracker() {
 
     const updateBid = (bid: number) => {
         socket.emit(ClientEvents.GameSetBid, { bid })
+        setBid(Math.min(Math.max(bid, 0), 25));
     }
 
     const increment = () => updateBid(bid + 1);
