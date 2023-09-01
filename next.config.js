@@ -1,6 +1,6 @@
 /** @type {import('next').NextConfig} */
 const nextConfig = {
-    transpilePackages: ['@few-word-do-trick/shared'],
+    output: "export",
 }
 
 module.exports = nextConfig
