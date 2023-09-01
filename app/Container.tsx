@@ -8,14 +8,14 @@ import { useParams } from 'next/navigation';
 
 const LOBBY_PARAM = 'lobbyID';
 
-export default function Home() {
+export default function Container() {
   const params = useParams();
 
   return (
     <div className='app'>
       <div className='header'>
         <div className='lobby'>
-          Room: {params[LOBBY_PARAM]}
+          Few Word Do Trick
         </div>
       </div>
 

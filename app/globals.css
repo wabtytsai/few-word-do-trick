@@ -1,3 +1,79 @@
 body {
   background: rgb(193, 193, 193);
 }
+
+.app {
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+}
+
+.header {
+  text-align: center;
+  margin-top: 20px;
+  margin-bottom: 40px;
+}
+
+.app-container {
+  display: flex;
+  flex-grow: 1;
+  justify-content: space-between;
+}
+
+.left-container, .right-container {
+  min-width: 150px;
+}
+
+.mid-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 10px;
+  min-width: 350px;
+}
+
+.timer-container {
+  display: flex;
+  flex-direction: row;
+  gap: 10px;
+  align-items: center;
+}
+
+.bid-tracker {
+  display: flex;
+  gap: 10px;
+  justify-content: center;
+  align-items: center;
+}
+
+.bid-tracker-bid-container {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  width: 350px;
+}
+
+.bid-tracker-slider {
+  width: 75%;
+}
+
+.words-list {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  text-align: center;
+  align-items: center;
+}
+
+.words-list-container {
+  height: 140px;
+}
+
+.words-list-reveal {
+  padding-top: 60px;
+}
+
+.words-list-word {
+  text-align: center;
+}
