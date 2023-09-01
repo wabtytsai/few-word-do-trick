@@ -1,9 +1,9 @@
 import { createContext, ReactNode, useContext } from "react";
 import io, { Socket } from "socket.io-client";
 
-const PROTOCOL = "http://"
-const SOCKET_URL = '127.0.0.1:4000/';
-const ws = io(PROTOCOL+SOCKET_URL);
+const SOCKET_URL = process.env.NEXT_PUBLIC_SOCKET_URL as string;
+console.log(SOCKET_URL);
+const ws = io(SOCKET_URL);
 
 const SocketContext = createContext(ws);
 
