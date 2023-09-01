@@ -5,7 +5,7 @@ phases:
       - yarn install
   build:
     commands:
-      - yarn build:client
+      - yarn build
 artifacts:
   files:
     - "*"
