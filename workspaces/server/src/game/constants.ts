@@ -1,5 +1,0 @@
-const SEC_IN_MS = 1000;
-const MINUTE_IN_MS = SEC_IN_MS * 60;
-const HOUR_IN_MS = MINUTE_IN_MS * 60
-
-export const LOBBY_MAX_LIFETIME_HOUR = 2 * HOUR_IN_MS;
