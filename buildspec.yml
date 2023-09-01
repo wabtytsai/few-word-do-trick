@@ -1,0 +1,12 @@
+version: 0.2
+phases:
+  pre_build:
+    commands:
+      - yarn install
+  build:
+    commands:
+      - yarn build:client
+artifacts:
+  files:
+    - "workspaces/client/.next/*"
+    - "workspaces/client/.next/**/*"
