@@ -1,1 +1,1 @@
-web: sh -c 'cat package.json && yarn start'
+web: sh -c 'ls && yarn start'
