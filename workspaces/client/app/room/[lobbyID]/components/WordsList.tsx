@@ -13,6 +13,7 @@ export default function WordsList() {
 
     useEffect(() => {
         socket.on(ServerEvents.GameWordsUpdate, data => {
+            setIsHidden(true);
             setWords(data.words);
         })
     }, [socket]);
