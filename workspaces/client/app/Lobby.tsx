@@ -1,5 +1,6 @@
 'use client'
 
+import { Button } from '@mantine/core';
 import { useRouter } from 'next/navigation';
 import { useSocket } from './socket/SocketProvider';
 import { ServerEvents } from '@shared/server/ServerEvents';
@@ -30,18 +31,34 @@ export default function Lobby() {
 
     const onJoinLobby = () => {
         router.push('/room/' + lobbyID);
-        
+
     }
 
     return (
-        <div>
-            <div className='app-create-lobby' onClick={onCreateLobby}>
+        <div className='landing'>
+            <Button
+                className='create-lobby-button'
+                onClick={onCreateLobby}
+                color="indigo"
+                radius="md"
+                size="xs"
+            >
                 Create Lobby
-            </div>
-            <div>
-                <input value={lobbyID} onChange={e => setLobbyID(e.target.value)} />
-                <span onClick={onJoinLobby}>Join Lobby</span>
-            </div>
+            </Button>
+            <Button
+                className='join-lobby-button'
+                onClick={onJoinLobby}
+                color="indigo"
+                radius="md"
+                size="xs"
+            >
+                Join Lobby
+            </Button>
+            <input
+                className='join-lobby-input'
+                value={lobbyID}
+                onChange={e => setLobbyID(e.target.value)}
+                placeholder="lobby id" />
         </div>
     )
 }

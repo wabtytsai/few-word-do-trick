@@ -46,7 +46,7 @@ export default function Home() {
   }
 
   return (
-    <div className='app'>
+    <div className='room'>
       <div className='header'>
         <div className='lobby'>
           Room: {params[LOBBY_PARAM]}
