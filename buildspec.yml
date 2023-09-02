@@ -3,9 +3,6 @@ phases:
   pre_build:
     commands:
       - yarn install
-      - cd workspaces/server
-      - yarn install
-      - cd ../../
   build:
     commands:
       - yarn build
