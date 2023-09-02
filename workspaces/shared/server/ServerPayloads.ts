@@ -1,5 +1,6 @@
 import { ServerEvents } from './ServerEvents';
 
+
 export type ServerPayloads = {
   [ServerEvents.GameMessage]: {
     message: string;
@@ -7,7 +8,7 @@ export type ServerPayloads = {
 
   [ServerEvents.LobbyJoined]: {
     message: string;
-    lobbyID: string;
+    lobbyID?: string;
   };
 
   [ServerEvents.GameWordsUpdate]: {

@@ -32,6 +32,7 @@ export default class LobbyManager {
                 SocketExceptions.LobbyError,
                 'Lobby not found');
         }
+        
         lobby.addClient(client);
     }
 

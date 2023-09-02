@@ -7,7 +7,8 @@ import Timer from './components/Timer';
 import WordsList from './components/WordsList';
 import { useParams } from 'next/navigation';
 import { ClientEvents } from '@shared/client/ClientEvents';
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
+import { ServerEvents } from '@shared/server/ServerEvents';
 
 const LOBBY_PARAM = 'lobbyID';
 
@@ -15,14 +16,34 @@ export default function Home() {
   const params = useParams();
   const lobbyID = params[LOBBY_PARAM] as string;
   const socket = useSocket();
+  const [isLoading, setIsLoading] = useState<boolean>(true);
+  const [error, setError] = useState<string | null>(null);
 
   useEffect(() => {
     socket.emit(ClientEvents.LobbyJoin, { lobbyID });
+    socket.on(ServerEvents.Error, data => {
+      const { message } = data;
+      setIsLoading(false);
+      setError(message);
+    });
+    socket.on(ServerEvents.LobbyJoined, () => {
+      setError(null);
+      setIsLoading(false);
+    });
 
     return () => {
       socket.emit(ClientEvents.LobbyLeave);
     }
   }, [socket]);
+
+  const errorState = <div>Lobby Not Found</div>;
+  const loadingState = <div></div>
+
+  if (isLoading) {
+    return loadingState;
+  } else if (error !== null) {
+    return errorState;
+  }
 
   return (
     <div className='app'>
@@ -49,5 +70,5 @@ export default function Home() {
       <div className='footer'>
       </div>
     </div>
-  )
+  );
 }

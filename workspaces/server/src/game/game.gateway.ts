@@ -16,6 +16,7 @@ import { TimerEvents } from '@shared/common/TimerEvents';
 import { Logger } from '@nestjs/common';
 import LobbyManager from '@game/lobby/lobby.manager';
 import { AuthSocket } from '@server/game/auth-socket';
+import { ServerException } from './server.exception';
 
 @WebSocketGateway({ cors: true })
 export class GameGateway implements
@@ -73,7 +74,17 @@ export class GameGateway implements
     onLobbyJoin(@ConnectedSocket() client: AuthSocket, @MessageBody('lobbyID') lobbyID: string): 
     WsResponse<ServerPayloads[ServerEvents.LobbyJoined]> {
         console.log('join', lobbyID);
-        this.lobbyManager.joinLobby(lobbyID, client);
+        try {
+            this.lobbyManager.joinLobby(lobbyID, client);
+        } catch (e) {
+            this.logger.log('Cannot find lobby', lobbyID, client);
+            return {
+                event: ServerEvents.Error,
+                data: {
+                    message: 'Cannot find lobby',
+                }
+            }
+        }
 
         this.logger.log('Lobby joined', lobbyID, client);
 

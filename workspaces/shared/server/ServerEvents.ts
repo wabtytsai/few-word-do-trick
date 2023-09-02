@@ -2,6 +2,7 @@ export enum ServerEvents
 {
   // General
   Pong = 'server.pong',
+  Error = 'server.error',
 
   // Lobby
   LobbyState = 'server.lobby.state',
