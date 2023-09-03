@@ -43,6 +43,10 @@ export default class GameInstance {
         return currentWords;
     }
 
+    public getCurrentWords(): string[] {
+        return this.words.slice(this.page, this.page + PAGE_SIZE);
+    }
+
     public updateBid(bid: number): number {
         this.bid = Math.min(Math.max(bid, BID_MIN), BID_MAX);
         const payload = { bid: this.bid };

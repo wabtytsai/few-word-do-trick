@@ -6,9 +6,13 @@ import { useSocket } from '@client/app/contexts/socket-context';
 import { ClientEvents } from '@shared/client/ClientEvents';
 import { ServerEvents } from '@shared/server/ServerEvents';
 
-export default function WordsList() {
+type Props = {
+    words: string[]
+}
+
+export default function WordsList(props: Props) {
     const socket = useSocket();
-    const [words, setWords] = useState<string[]>([]);
+    const [words, setWords] = useState<string[]>(props.words);
     const [isHidden, setIsHidden] = useState(true);
 
     useEffect(() => {

@@ -16,7 +16,6 @@ import { TimerEvents } from '@shared/common/TimerEvents';
 import { Logger } from '@nestjs/common';
 import LobbyManager from '@game/lobby/lobby.manager';
 import { AuthSocket } from '@server/game/auth-socket';
-import { ServerException } from './server.exception';
 
 @WebSocketGateway({ cors: true })
 export class GameGateway implements
@@ -55,7 +54,7 @@ export class GameGateway implements
 
     @SubscribeMessage(ClientEvents.LobbyCreate)
     onLobbyCreate(client: AuthSocket): 
-    WsResponse<ServerPayloads[ServerEvents.LobbyJoined]> {
+    WsResponse<ServerPayloads> {
         const lobby = this.lobbyManager.createLobby();
         lobby.addClient(client);
 
@@ -72,8 +71,7 @@ export class GameGateway implements
 
     @SubscribeMessage(ClientEvents.LobbyJoin)
     onLobbyJoin(@ConnectedSocket() client: AuthSocket, @MessageBody('lobbyID') lobbyID: string): 
-    WsResponse<ServerPayloads[ServerEvents.LobbyJoined]> {
-        console.log('join', lobbyID);
+    WsResponse<ServerPayloads> {
         try {
             this.lobbyManager.joinLobby(lobbyID, client);
         } catch (e) {
@@ -99,7 +97,7 @@ export class GameGateway implements
 
     @SubscribeMessage(ClientEvents.LobbyLeave)
     onLobbyLeave(client: AuthSocket): 
-    WsResponse<ServerPayloads[ServerEvents.GameMessage]> {
+    WsResponse<ServerPayloads> {
         this.lobbyManager.leaveLobby(client);
 
         this.logger.log('Lobby left', client);
@@ -108,6 +106,29 @@ export class GameGateway implements
             event: ServerEvents.GameMessage,
             data: {
                 message: 'Left lobby',
+            }
+        }
+    }
+
+    @SubscribeMessage(ClientEvents.LobbyRefresh)
+    onLobbyRefresh(@ConnectedSocket() client: AuthSocket): 
+    WsResponse<ServerPayloads> {
+        const lobby = client.data.lobby;
+        if (lobby === null) {
+            return {
+                event: ServerEvents.Error,
+                data: {
+                    message: 'Cannot find lobby',
+                }
+            }
+        }
+        const words = lobby.instance.getCurrentWords();
+        this.logger.log('Lobby refreshed', client);
+        return {
+            event: ServerEvents.LobbyRefreshed,
+            data: {
+                lobbyID: lobby.id,
+                words,
             }
         }
     }
