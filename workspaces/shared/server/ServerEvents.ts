@@ -15,4 +15,5 @@ export enum ServerEvents
   GameWordsUpdate = 'server.game.words.update',
   GameBidUpdate = 'server.game.bid.update',
   GameTimerUpdate = 'server.game.timer.update',
+  GameTeamUpdate = 'server.game.team.update',
 }

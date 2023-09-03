@@ -167,7 +167,15 @@ export class GameGateway implements
         @ConnectedSocket() client: AuthSocket, 
         @MessageBody('event') event: TimerEvents,
     ): void {
-        const bid = client.data.lobby.instance.updateTimer(event);
+        client.data.lobby.instance.updateTimer(event);
         this.logger.log('Updated timer', client.data.lobby, event);
+    }
+
+    @SubscribeMessage(ClientEvents.GameShuffleTeam)
+    onGameShuffleTeam(
+        @ConnectedSocket() client: AuthSocket, 
+    ): void {
+        client.data.lobby.instance.shuffleTeams();
+        this.logger.log('Shuffled team', client.data.lobby);
     }
 }

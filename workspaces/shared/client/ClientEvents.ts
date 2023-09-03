@@ -13,4 +13,6 @@ export enum ClientEvents {
   GameGetWords = 'client.game.get-words',
   GameSetBid = 'client.game.set-bid',
   GameUpdateTimer = 'client.game.update-timer',
+  GameShuffleTeam = 'client.game.shuffle-team',
+  GameJoinTeam = 'client.game.join-team',
 }
