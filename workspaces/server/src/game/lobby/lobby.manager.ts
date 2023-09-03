@@ -12,10 +12,12 @@ export default class LobbyManager {
 
     public initializeSocket(client: AuthSocket): void {
         client.data.lobby = null;
+        client.data.name = null;
     }
 
     public closeSocket(client: AuthSocket): void {
         client.data.lobby?.removeClient(client);
+        client.data.name = null;
     }
 
     public createLobby(): Lobby {
@@ -38,6 +40,7 @@ export default class LobbyManager {
 
     public leaveLobby(client: AuthSocket): void {
         client.data.lobby?.removeClient(client);
+        client.data.name = null;
     }
 
     @Cron(CronExpression.EVERY_HOUR)

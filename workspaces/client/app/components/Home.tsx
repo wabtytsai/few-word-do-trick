@@ -27,7 +27,7 @@ export default function Lobby() {
     }
 
     const onJoinLobby = () => {
-        socket.emit(ClientEvents.LobbyJoin, { lobbyID })
+        socket.emit(ClientEvents.LobbyJoin, { lobbyID, name })
         router.push('/room/' + lobbyID);
     }
 

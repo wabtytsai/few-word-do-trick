@@ -41,7 +41,7 @@ export class GameGateway implements
 
     async handleDisconnect(client: AuthSocket): Promise<void> {
         this.lobbyManager.closeSocket(client);
-        this.logger.log('Handled disconnection', client);
+        this.logger.log('Handled disconnection', client.id);
     }
 
     @SubscribeMessage(ClientEvents.Ping)
@@ -49,33 +49,42 @@ export class GameGateway implements
         client.emit(ServerEvents.Pong, {
             message: 'pong',
         });
-        this.logger.log('Pong', client);
+        this.logger.log('Pong', client.id);
     }
 
     @SubscribeMessage(ClientEvents.LobbyCreate)
-    onLobbyCreate(client: AuthSocket): 
+    onLobbyCreate(
+        @ConnectedSocket() client: AuthSocket,
+        @MessageBody('name') name: string): 
     WsResponse<ServerPayloads> {
         const lobby = this.lobbyManager.createLobby();
+        client.data.name = name;
         lobby.addClient(client);
 
-        this.logger.log('Lobby created', lobby, client);
+        this.logger.log('Lobby created', lobby, client.id);
 
         return {
             event: ServerEvents.LobbyCreated,
             data: {
                 message: 'Created lobby',
                 lobbyID: lobby.id,
+                name: client.data.name,
             }
         };
     }
 
     @SubscribeMessage(ClientEvents.LobbyJoin)
-    onLobbyJoin(@ConnectedSocket() client: AuthSocket, @MessageBody('lobbyID') lobbyID: string): 
+    onLobbyJoin(
+        @ConnectedSocket() client: AuthSocket, 
+        @MessageBody('lobbyID') lobbyID: string,
+        @MessageBody('name') name: string): 
     WsResponse<ServerPayloads> {
         try {
+            client.data.name = name;
             this.lobbyManager.joinLobby(lobbyID, client);
         } catch (e) {
-            this.logger.log('Cannot find lobby', lobbyID, client);
+            client.data.name = null;
+            this.logger.log('Cannot find lobby', lobbyID, client.id);
             return {
                 event: ServerEvents.Error,
                 data: {
@@ -84,13 +93,14 @@ export class GameGateway implements
             }
         }
 
-        this.logger.log('Lobby joined', lobbyID, client);
+        this.logger.log('Lobby joined', lobbyID, client.id);
 
         return {
             event: ServerEvents.LobbyJoined,
             data: {
                 message: 'Joined lobby',
                 lobbyID,
+                name: client.data.name,
             }
         }
     }
@@ -100,7 +110,7 @@ export class GameGateway implements
     WsResponse<ServerPayloads> {
         this.lobbyManager.leaveLobby(client);
 
-        this.logger.log('Lobby left', client);
+        this.logger.log('Lobby left', client.id);
 
         return {
             event: ServerEvents.GameMessage,
@@ -123,12 +133,13 @@ export class GameGateway implements
             }
         }
         const words = lobby.instance.getCurrentWords();
-        this.logger.log('Lobby refreshed', client);
+        this.logger.log('Lobby refreshed', client.id);
         return {
             event: ServerEvents.LobbyRefreshed,
             data: {
                 lobbyID: lobby.id,
                 words,
+                name: client.data.name,
             }
         }
     }

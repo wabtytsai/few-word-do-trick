@@ -1,16 +1,12 @@
 import { useParams, useRouter } from "next/navigation";
 import { PARAM_LOBBY_ID } from "../constants";
 import { Button, Text, Title } from "@mantine/core";
-import { useSocket } from "@client/app/contexts/socket-context";
-import { ClientEvents } from "@shared/client/ClientEvents";
 
 export default function Header() {
-    const socket = useSocket();
     const router = useRouter();
     const lobbyID = useParams()[PARAM_LOBBY_ID] as string;
 
     const onLeaveLobby = () => {
-        socket.emit(ClientEvents.LobbyLeave);
         router.back();
     }
 

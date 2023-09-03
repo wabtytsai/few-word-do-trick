@@ -15,6 +15,7 @@ export default function Room() {
   const [isLoading, setIsLoading] = useState<boolean>(true);
   const [error, setError] = useState<string | null>(null);
   const [words, setWords] = useState<string[]>([]);
+  const [name, setName] = useState<string>('');
 
   useEffect(() => {
     socket.emit(ClientEvents.LobbyRefresh);
@@ -29,6 +30,7 @@ export default function Room() {
       setError(null);
       setIsLoading(false);
       setWords(data['words']);
+      setName(data['name']);
     });
 
     return () => {

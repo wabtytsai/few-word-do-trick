@@ -5,4 +5,5 @@ export type ServerPayloads = {
   message?: string;
   lobbyID?: string;
   words?: string[];
+  name?: string;
 };
