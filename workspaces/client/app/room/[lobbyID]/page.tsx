@@ -1,6 +1,6 @@
 'use client'
 
-import { useSocket } from '@client/app/socket/SocketProvider';
+import { useSocket } from '@client/app/contexts/socket-context';
 import BidTracker from './components/BidTracker';
 import TeamTracker from './components/TeamTracker';
 import Timer from './components/Timer';

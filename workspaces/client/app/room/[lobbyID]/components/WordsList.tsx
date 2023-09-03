@@ -2,7 +2,7 @@
 
 import { Button, Text, Paper } from '@mantine/core';
 import { useEffect, useState } from 'react';
-import { useSocket } from '@client/app/socket/SocketProvider';
+import { useSocket } from '@client/app/contexts/socket-context';
 import { ClientEvents } from '@shared/client/ClientEvents';
 import { ServerEvents } from '@shared/server/ServerEvents';
 

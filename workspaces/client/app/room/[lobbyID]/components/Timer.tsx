@@ -5,7 +5,7 @@ import {
     BsFillPlayCircleFill,
     BsFillStopCircleFill,
 } from 'react-icons/bs';
-import { useSocket } from '@client/app/socket/SocketProvider';
+import { useSocket } from '@client/app/contexts/socket-context';
 import { ServerEvents } from '@shared/server/ServerEvents';
 import { TimerEvents } from '@shared/common/TimerEvents';
 import { useCallback, useEffect, useState } from 'react';

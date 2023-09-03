@@ -1,14 +1,14 @@
 'use client'
 
-import { SocketProvider } from './socket/SocketProvider';
-import Lobby from './Lobby';
+import { SocketProvider } from './contexts/socket-context';
+import Home from './components/Home';
 
-export default function Home() {
+export default function App() {
   return (
     <div className='app'>
       <SocketProvider>
         <div className='app-container'>
-          <Lobby />
+          <Home />
         </div>
       </SocketProvider>
     </div>

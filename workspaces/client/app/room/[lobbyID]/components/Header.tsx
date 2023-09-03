@@ -1,7 +1,7 @@
 import { useParams, useRouter } from "next/navigation";
 import { PARAM_LOBBY_ID } from "../constants";
 import { Button, Text, Title } from "@mantine/core";
-import { useSocket } from "@client/app/socket/SocketProvider";
+import { useSocket } from "@client/app/contexts/socket-context";
 import { ClientEvents } from "@shared/client/ClientEvents";
 
 export default function Header() {

@@ -24,26 +24,23 @@ body {
   align-items: center;
   justify-content: center;
   flex-grow: 1;
+  width: 420px;
+  gap: 10px;
 }
 
-/* .home {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: space-between;
-  flex-grow: 1;
-} */
-
-.create-lobby-button {
-  margin-top: 20px;
+.home-title {
   margin-bottom: 20px;
-  width: 155px;
 }
 
-.join-lobby-button {
-  width: 155px;
+.name-input, .lobby-id-input, .home-buttons {
+  width: 70%;
 }
 
-.join-lobby-input {
-  width: 155px;
+.home-buttons {
+  display: flex;
+  justify-content: space-evenly;
+}
+
+.create-lobby-button, .join-lobby-button {
+  width: 120px;
 }

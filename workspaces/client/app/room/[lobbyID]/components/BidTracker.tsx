@@ -6,7 +6,7 @@ import {
 } from 'react-icons/ai';
 import { useEffect, useState } from 'react';
 import { Slider } from '@mantine/core';
-import { useSocket } from '@client/app/socket/SocketProvider';
+import { useSocket } from '@client/app/contexts/socket-context';
 import { ServerEvents } from '@shared/server/ServerEvents';
 import { ClientEvents } from '@shared/client/ClientEvents';
 import { STARTING_BID } from '../constants';
