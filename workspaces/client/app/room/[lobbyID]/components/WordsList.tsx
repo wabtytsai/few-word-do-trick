@@ -38,7 +38,7 @@ export default function WordsList() {
                 </Paper>
             </div>
             <div className='words-list-next' onClick={onNextWords}>
-                <Button color="indigo" radius="md" size="sm">Next</Button>
+                <Button variant="light" radius="xl" size="sm">Next</Button>
             </div>
         </div>
     )

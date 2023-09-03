@@ -4,16 +4,47 @@
   min-height: 100vh;
 }
 
+/*#######
+  Header
+#########*/
+
 .header {
-  text-align: center;
-  margin-top: 20px;
-  margin-bottom: 40px;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: flex-start;
+  flex-wrap: nowrap;
+  height: 65px;
+  border-bottom: 1px solid;
+  padding: 0 16px;
 }
 
-.app-container {
+.header-title {
+  flex-grow: 2;
+}
+
+.header-menu {
   display: flex;
-  flex-grow: 1;
-  justify-content: space-between;
+  flex-direction: row;
+  justify-content: flex-end;
+  gap: 5px;
+}
+
+.header-lobby-id {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  gap: 5px;
+}
+
+/*#######
+  Content
+#########*/
+
+.main-content {
+  height: 100%;
+  display: flex;
+  align-items: center;
 }
 
 .left-container, .right-container {
@@ -25,7 +56,7 @@
   flex-direction: column;
   align-items: center;
   gap: 10px;
-  min-width: 350px;
+  min-width: 300px;
 }
 
 .timer-container {
@@ -33,31 +64,12 @@
   flex-direction: row;
   gap: 10px;
   align-items: center;
-}
-
-.bid-tracker {
-  display: flex;
-  gap: 10px;
   justify-content: center;
-  align-items: center;
-}
-
-.bid-tracker-bid-container {
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-  width: 350px;
-}
-
-.bid-tracker-slider {
-  width: 75%;
 }
 
 .words-list {
   display: flex;
   flex-direction: column;
-  gap: 20px;
   text-align: center;
   align-items: center;
 }
@@ -72,4 +84,30 @@
 
 .words-list-word {
   text-align: center;
+}
+
+.words-list-next {
+  margin-top: 30px;
+}
+
+.bid-tracker {
+  display: flex;
+  gap: 10px;
+  justify-content: center;
+  align-items: center;
+  padding: 20px;
+  width: 100%;
+}
+
+.bid-tracker-bid-container {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+  margin-top: -20px;
+}
+
+.bid-tracker-slider {
+  width: 90%;
 }

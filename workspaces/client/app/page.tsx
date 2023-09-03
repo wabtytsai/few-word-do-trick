@@ -7,7 +7,9 @@ export default function Home() {
   return (
     <div className='app'>
       <SocketProvider>
-        <Lobby />
+        <div className='app-container'>
+          <Lobby />
+        </div>
       </SocketProvider>
     </div>
   )

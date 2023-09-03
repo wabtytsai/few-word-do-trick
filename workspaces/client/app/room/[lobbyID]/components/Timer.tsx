@@ -10,9 +10,7 @@ import { ServerEvents } from '@shared/server/ServerEvents';
 import { TimerEvents } from '@shared/common/TimerEvents';
 import { useCallback, useEffect, useState } from 'react';
 import { ClientEvents } from '@shared/client/ClientEvents';
-
-const TICK_IN_MS = 1000;
-const DEFAULT_TIME = 45;
+import { DEFAULT_TIME, TICK_IN_MS } from '../constants';
 
 export default function Timer() {
     const socket = useSocket();

@@ -9,8 +9,7 @@ import { Slider } from '@mantine/core';
 import { useSocket } from '@client/app/socket/SocketProvider';
 import { ServerEvents } from '@shared/server/ServerEvents';
 import { ClientEvents } from '@shared/client/ClientEvents';
-
-const STARTING_BID = 25;
+import { STARTING_BID } from '../constants';
 
 const marks = [
     { value: 5, label: '5' },
@@ -40,7 +39,7 @@ export default function BidTracker() {
     return (
         <div className="bid-tracker">
             <div className='bid-tracker-minus' onClick={decrement}>
-                <AiFillMinusCircle />
+                <AiFillMinusCircle size={24} />
             </div>
             <div className='bid-tracker-bid-container'>
                 <div className='bid-tracker-bid'>{bid}</div>
@@ -56,7 +55,7 @@ export default function BidTracker() {
                 </div>
             </div>
             <div className='bid-tracker-plus' onClick={increment}>
-                <AiFillPlusCircle />
+                <AiFillPlusCircle size={24} />
             </div>
         </div>
     )

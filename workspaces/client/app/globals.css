@@ -1,19 +1,49 @@
 body {
-  background: rgb(193, 193, 193);
+  background: rgb(233, 233, 233);
 }
 
 .app {
-  margin-left: auto;
-  margin-right: auto;
-  width: 200px;
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  top: 0;
+  left: 0;
 }
 
-.landing {
+.app-container {
+  height: 80%;
   display: flex;
   flex-direction: column;
+  align-items: center;
+  justify-content: space-between;
 }
+
+.home {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  flex-grow: 1;
+}
+
+/* .home {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: space-between;
+  flex-grow: 1;
+} */
 
 .create-lobby-button {
   margin-top: 20px;
   margin-bottom: 20px;
+  width: 155px;
+}
+
+.join-lobby-button {
+  width: 155px;
+}
+
+.join-lobby-input {
+  width: 155px;
 }
