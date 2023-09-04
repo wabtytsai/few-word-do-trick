@@ -37,6 +37,12 @@
   gap: 5px;
 }
 
+.header-popover {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
 /*#######
   Content
 #########*/

@@ -5,6 +5,8 @@ import { Socket } from 'socket.io';
 import { AuthSocket } from '@server/game/auth-socket';
 import { ServerEvents } from "@shared/server/ServerEvents";
 import { TimerEvents } from "@shared/common/TimerEvents";
+import { ServerPayloads } from "@shared/server/ServerPayloads";
+import { RoomTeams } from "@shared/common/RoomTeams";
 const seedrandom = require('seedrandom');
 
 const PAGE_SIZE = 5;
@@ -17,6 +19,7 @@ export default class GameInstance {
     private rng: PRNG;
     private words: string[];
     private page: number = 0;
+    private waitingRoom: Map<Socket['id'], AuthSocket> = new Map<Socket['id'], AuthSocket>();
     private teamA: Map<Socket['id'], AuthSocket> = new Map<Socket['id'], AuthSocket>();
     private teamB: Map<Socket['id'], AuthSocket> = new Map<Socket['id'], AuthSocket>();
 
@@ -64,39 +67,63 @@ export default class GameInstance {
     }
 
     public shuffleTeams() {
-        const clients = this.lobby.clients;
-        const clientIDs = Array.from(clients.keys());
-        const halfWay = Math.ceil(clientIDs.length / 2);
-        this.shuffle(clientIDs);
+        this.waitingRoom.clear();
+        this.teamA.clear();
+        this.teamB.clear();
+        const clients = Array.from(this.lobby.clients.values());
+        const halfWay = Math.ceil(clients.length / 2);
+        this.shuffle(clients);
         for (let i = 0; i < halfWay; i++) {
-            const clientID = clientIDs[i];
-            this.teamA.set(clientID, clients.get(clientID) as AuthSocket);
+            this.teamA.set(clients[i].id, clients[i]);
         }
-        for (let i = halfWay; i < clientIDs.length; i++) {
-            const clientID = clientIDs[i];
-            this.teamB.set(clientID, clients.get(clientID) as AuthSocket);
+        for (let i = halfWay; i < clients.length; i++) {
+            this.teamB.set(clients[i].id, clients[i]);
         }
 
-        this.updateTeams();
+        this.emitTeamUpdates();
     }
 
-    public removeFromtTeam(client: AuthSocket) {
-        if (this.teamA.has(client.id)) {
-            this.teamA.delete(client.id);
-        } 
-        if (this.teamB.has(client.id)) {
-            this.teamB.delete(client.id);
+    public addClientToTeam(client: AuthSocket, team: RoomTeams) {
+        let teamMap;
+        switch (team) {
+            case (RoomTeams.waitingRoom): {
+                teamMap = this.waitingRoom;
+                break;
+            }
+            case (RoomTeams.teamA): {
+                teamMap = this.teamA;
+                break;
+            }
+            case (RoomTeams.teamB): {
+                teamMap = this.teamB;
+                break;
+            }
         }
-
-        this.updateTeams();
+        this.waitingRoom.delete(client.id);
+        this.teamA.delete(client.id);
+        this.teamB.delete(client.id);
+        teamMap.set(client.id, client);
+        this.emitTeamUpdates();
     }
 
-    private updateTeams() {
+    public removeClient(client: AuthSocket) {
+        this.waitingRoom.delete(client.id);
+        this.teamA.delete(client.id);
+        this.teamB.delete(client.id);
+        this.emitTeamUpdates();
+    }
+
+    public getTeams(): ServerPayloads['players'] {
         const getName = (client: AuthSocket) => client.data.name as string;
+        const waitingRoom = Array.from(this.waitingRoom.values()).map(getName);
         const teamA = Array.from(this.teamA.values()).map(getName);
         const teamB = Array.from(this.teamB.values()).map(getName);
 
-        const payload = { teamA, teamB };
+        return { waitingRoom, teamA, teamB };
+    }
+
+    private emitTeamUpdates() {
+        const payload = this.getTeams();
         this.lobby.emitToClients(ServerEvents.GameTeamUpdate, payload);
     }
 }

@@ -1,12 +1,17 @@
 'use client'
 
-import { useState } from 'react';
+import { useSocket } from '@client/app/contexts/socket-context';
+import { ClientEvents } from '@shared/client/ClientEvents';
+import { useEffect, useState } from 'react';
+import { RoomTeams } from '@shared/common/RoomTeams';
 
 type Props = {
-    members: Array<string>,
-};
+    members: string[],
+    roomTeam: RoomTeams,
+}
 
 export default function TeamTracker({ members }: Props) {
+    const socket = useSocket();
     const [points, setPoints] = useState(0);
 
     const onScore = () => setPoints(prev => prev + 1);

@@ -68,7 +68,6 @@ export class GameGateway implements
             data: {
                 message: 'Created lobby',
                 lobbyID: lobby.id,
-                name: client.data.name,
             }
         };
     }
@@ -100,7 +99,6 @@ export class GameGateway implements
             data: {
                 message: 'Joined lobby',
                 lobbyID,
-                name: client.data.name,
             }
         }
     }
@@ -139,13 +137,10 @@ export class GameGateway implements
             data: {
                 lobbyID: lobby.id,
                 words,
-                name: client.data.name,
+                players: lobby.instance.getTeams(),
             }
         }
     }
-
-
-    // Propagate events //
 
     @SubscribeMessage(ClientEvents.GameGetWords)
     onGameGetWords(@ConnectedSocket() client: AuthSocket): void {

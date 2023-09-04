@@ -8,14 +8,20 @@ import WordsList from './WordsList';
 import { ClientEvents } from '@shared/client/ClientEvents';
 import { useEffect, useState } from 'react';
 import { ServerEvents } from '@shared/server/ServerEvents';
+import { Players } from '@shared/server/ServerPayloads';
 import Header from './Header';
+import { RoomTeams } from '@shared/common/RoomTeams';
 
 export default function Room() {
   const socket = useSocket();
   const [isLoading, setIsLoading] = useState<boolean>(true);
   const [error, setError] = useState<string | null>(null);
   const [words, setWords] = useState<string[]>([]);
-  const [name, setName] = useState<string>('');
+  const [players, setPlayers] = useState<Players>({
+    waitingRoom: [],
+    teamA: [],
+    teamB: [],
+  });
 
   useEffect(() => {
     socket.emit(ClientEvents.LobbyRefresh);
@@ -30,7 +36,7 @@ export default function Room() {
       setError(null);
       setIsLoading(false);
       setWords(data['words']);
-      setName(data['name']);
+      setPlayers(data['players']);
     });
 
     return () => {
@@ -49,12 +55,12 @@ export default function Room() {
 
   return (
     <div className='app'>
-      <Header />
+      <Header waitingRoom={players['waitingRoom']} />
 
       <div className='app-container'>
         <div className='main-content'>
           <div className='left-container'>
-            {/* <TeamTracker members={['Team 1']} /> */}
+            <TeamTracker members={players['teamA']} roomTeam={RoomTeams.teamA} />
           </div>
           <div className='mid-container'>
             <Timer />
@@ -62,7 +68,7 @@ export default function Room() {
             <BidTracker />
           </div>
           <div className='right-container'>
-            {/* <TeamTracker members={['Team 2']} /> */}
+            <TeamTracker members={players['teamB']} roomTeam={RoomTeams.teamB} />
           </div>
         </div>
       </div>

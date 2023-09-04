@@ -3,6 +3,7 @@ import { Server, Socket } from 'socket.io';
 import { AuthSocket } from '@server/game/auth-socket';
 import GameInstance from '@server/game/game.instance';
 import { ServerEvents } from '@shared/server/ServerEvents';
+import { RoomTeams } from '@shared/common/RoomTeams';
 
 const ID_LENGTH = 8;
 
@@ -16,6 +17,7 @@ export default class Lobby {
 
     public addClient(client: AuthSocket): void {
         this.clients.set(client.id, client);
+        this.instance.addClientToTeam(client, RoomTeams.waitingRoom);
         client.join(this.id);
         client.data.lobby = this;
 
@@ -24,7 +26,7 @@ export default class Lobby {
 
     public removeClient(client: AuthSocket): void {
         this.clients.delete(client.id);
-        this.instance.removeFromtTeam(client);
+        this.instance.removeClient(client);
         client.leave(this.id);
         client.data.lobby = null;
 
