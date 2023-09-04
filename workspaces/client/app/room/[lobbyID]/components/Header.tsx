@@ -3,7 +3,6 @@ import { PARAM_LOBBY_ID } from "../constants";
 import { Button, Popover, Text, Title } from "@mantine/core";
 import { useSocket } from "@client/app/contexts/socket-context";
 import { ClientEvents } from "@shared/client/ClientEvents";
-import { Players } from "@shared/server/ServerPayloads";
 
 type Props = {
     waitingRoom: string[],
@@ -19,7 +18,7 @@ export default function Header({ waitingRoom }: Props) {
     }
 
     const onShuffleTeam = () => {
-        // socket.emit(ClientEvents.GameShuffleTeam);
+        socket.emit(ClientEvents.GameShuffleTeam);
     }
 
     return (

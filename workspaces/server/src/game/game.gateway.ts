@@ -16,6 +16,7 @@ import { TimerEvents } from '@shared/common/TimerEvents';
 import { Logger } from '@nestjs/common';
 import LobbyManager from '@game/lobby/lobby.manager';
 import { AuthSocket } from '@server/game/auth-socket';
+import { RoomTeams } from '@shared/common/RoomTeams';
 
 @WebSocketGateway({ cors: true })
 export class GameGateway implements
@@ -150,7 +151,7 @@ export class GameGateway implements
         @MessageBody('event') event: TimerEvents,
     ): void {
         client.data.lobby.instance.updateTimer(event);
-        this.logger.log('Updated timer', client.data.lobby, event);
+        this.logger.log('Updated timer');
     }
 
     @SubscribeMessage(ClientEvents.GameShuffleTeam)
@@ -159,6 +160,16 @@ export class GameGateway implements
     ): void {
         client.data.lobby.instance.shuffleTeams();
         client.data.lobby.instance.emitGameUpdates();
-        this.logger.log('Shuffled team', client.data.lobby);
+        this.logger.log('Shuffled team');
+    }
+
+    @SubscribeMessage(ClientEvents.GameJoinTeam)
+    onGameJoinTeam(
+        @ConnectedSocket() client: AuthSocket, 
+        @MessageBody('roomTeam') roomTeam: RoomTeams,
+    ): void {
+        client.data.lobby.instance.addClientToTeam(client, roomTeam);
+        client.data.lobby.instance.emitGameUpdates();
+        this.logger.log('Joined team');
     }
 }

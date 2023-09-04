@@ -91,6 +91,7 @@ export default class GameInstance {
                 break;
             }
         }
+        console.log(teamMap, team)
         this.waitingRoom.delete(client.id);
         this.teamA.delete(client.id);
         this.teamB.delete(client.id);

@@ -21,7 +21,7 @@ export default class Lobby {
         client.join(this.id);
         client.data.lobby = this;
 
-        // TODO: emit event to all clients
+        this.instance.emitGameUpdates();
     }
 
     public removeClient(client: AuthSocket): void {
@@ -30,7 +30,7 @@ export default class Lobby {
         client.leave(this.id);
         client.data.lobby = null;
 
-        // TODO: emit event to all clients
+        this.instance.emitGameUpdates();
     }
 
     public emitToClients<T>(event: ServerEvents, payload: T): void {
