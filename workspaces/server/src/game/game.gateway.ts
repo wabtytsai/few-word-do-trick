@@ -118,34 +118,20 @@ export class GameGateway implements
         }
     }
 
-    @SubscribeMessage(ClientEvents.LobbyRefresh)
-    onLobbyRefresh(@ConnectedSocket() client: AuthSocket): 
-    WsResponse<ServerPayloads> {
+    @SubscribeMessage(ClientEvents.GameRefresh)
+    onGameRefresh(@ConnectedSocket() client: AuthSocket): void {
         const lobby = client.data.lobby;
         if (lobby === null) {
-            return {
-                event: ServerEvents.Error,
-                data: {
-                    message: 'Cannot find lobby',
-                }
-            }
+            client.emit(ServerEvents.Error, { message: 'Cannot find lobby' });
+            return;
         }
-        const words = lobby.instance.getCurrentWords();
-        this.logger.log('Lobby refreshed', client.id);
-        return {
-            event: ServerEvents.LobbyRefreshed,
-            data: {
-                lobbyID: lobby.id,
-                words,
-                players: lobby.instance.getTeams(),
-            }
-        }
+        lobby.instance.emitGameUpdates();
     }
 
     @SubscribeMessage(ClientEvents.GameGetWords)
     onGameGetWords(@ConnectedSocket() client: AuthSocket): void {
-        const words = client.data.lobby.instance.refreshWords();
-        this.logger.log('Got new words', client.data.lobby, words);
+        client.data.lobby.instance.refreshWords();
+        this.logger.log('Refreshed words');
     }
 
     @SubscribeMessage(ClientEvents.GameSetBid)
@@ -153,8 +139,9 @@ export class GameGateway implements
         @ConnectedSocket() client: AuthSocket, 
         @MessageBody('bid') bid: number
     ): void {
-        const updatedBid = client.data.lobby.instance.updateBid(bid);
-        this.logger.log('Updated bid', client.data.lobby, updatedBid);
+        client.data.lobby.instance.setBid(bid);
+        client.data.lobby.instance.emitGameUpdates();
+        this.logger.log('Updated bid');
     }
 
     @SubscribeMessage(ClientEvents.GameUpdateTimer)
@@ -171,6 +158,7 @@ export class GameGateway implements
         @ConnectedSocket() client: AuthSocket, 
     ): void {
         client.data.lobby.instance.shuffleTeams();
+        client.data.lobby.instance.emitGameUpdates();
         this.logger.log('Shuffled team', client.data.lobby);
     }
 }

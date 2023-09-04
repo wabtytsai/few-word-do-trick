@@ -38,27 +38,21 @@ export default class GameInstance {
         this.page = 0;
     }
 
-    public refreshWords(): string[] {
+    public refreshWords() {
         if (this.page + PAGE_SIZE >= this.words.length) {
             this.shuffle(this.words);
         }
-
-        const currentWords = this.words.slice(this.page, this.page + PAGE_SIZE);
-        const payload = { words: currentWords };
         this.page += PAGE_SIZE;
+        const payload = { words: this.getCurrentWords() };
         this.lobby.emitToClients(ServerEvents.GameWordsUpdate, payload);
-        return currentWords;
     }
 
     public getCurrentWords(): string[] {
         return this.words.slice(this.page, this.page + PAGE_SIZE);
     }
 
-    public updateBid(bid: number): number {
+    public setBid(bid: number) {
         this.bid = Math.min(Math.max(bid, BID_MIN), BID_MAX);
-        const payload = { bid: this.bid };
-        this.lobby.emitToClients(ServerEvents.GameBidUpdate, payload);
-        return this.bid;
     }
 
     public updateTimer(event: TimerEvents): void {
@@ -79,8 +73,6 @@ export default class GameInstance {
         for (let i = halfWay; i < clients.length; i++) {
             this.teamB.set(clients[i].id, clients[i]);
         }
-
-        this.emitTeamUpdates();
     }
 
     public addClientToTeam(client: AuthSocket, team: RoomTeams) {
@@ -103,14 +95,12 @@ export default class GameInstance {
         this.teamA.delete(client.id);
         this.teamB.delete(client.id);
         teamMap.set(client.id, client);
-        this.emitTeamUpdates();
     }
 
     public removeClient(client: AuthSocket) {
         this.waitingRoom.delete(client.id);
         this.teamA.delete(client.id);
         this.teamB.delete(client.id);
-        this.emitTeamUpdates();
     }
 
     public getTeams(): ServerPayloads['players'] {
@@ -122,8 +112,12 @@ export default class GameInstance {
         return { waitingRoom, teamA, teamB };
     }
 
-    private emitTeamUpdates() {
-        const payload = this.getTeams();
-        this.lobby.emitToClients(ServerEvents.GameTeamUpdate, payload);
+    public emitGameUpdates() {
+        const payload = {
+            words: this.getCurrentWords(),
+            players: this.getTeams(),
+            bid: this.bid,
+        }
+        this.lobby.emitToClients(ServerEvents.GameRefreshed, payload);
     }
 }

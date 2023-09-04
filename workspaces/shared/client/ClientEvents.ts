@@ -6,8 +6,6 @@ export enum ClientEvents {
   LobbyCreate = 'client.lobby.create',
   LobbyJoin = 'client.lobby.join',
   LobbyLeave = 'client.lobby.leave',
-  // sent when user first load the page to get data from server
-  LobbyRefresh = 'client.lobby.refresh',
 
   // Game
   GameGetWords = 'client.game.get-words',
@@ -15,4 +13,5 @@ export enum ClientEvents {
   GameUpdateTimer = 'client.game.update-timer',
   GameShuffleTeam = 'client.game.shuffle-team',
   GameJoinTeam = 'client.game.join-team',
+  GameRefresh = 'client.game.refresh',
 }

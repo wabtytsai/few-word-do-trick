@@ -24,7 +24,7 @@ export default function Room() {
   });
 
   useEffect(() => {
-    socket.emit(ClientEvents.LobbyRefresh);
+    socket.emit(ClientEvents.GameRefresh);
 
     socket.on(ServerEvents.Error, data => {
       const { message } = data;
@@ -32,7 +32,7 @@ export default function Room() {
       setError(message);
     });
 
-    socket.on(ServerEvents.LobbyRefreshed, data => {
+    socket.on(ServerEvents.GameRefreshed, data => {
       setError(null);
       setIsLoading(false);
       setWords(data['words']);

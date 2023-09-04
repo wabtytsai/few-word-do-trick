@@ -23,7 +23,7 @@ export default function BidTracker() {
     const [bid, setBid] = useState<number>(25);
 
     useEffect(() => {
-        socket.on(ServerEvents.GameBidUpdate, data => {
+        socket.on(ServerEvents.GameRefreshed, data => {
             setBid(data.bid);
         });
     }, [socket]);
