@@ -1,5 +1,5 @@
 export enum RoomTeams {
-    waitingRoom = 'waitingRoom',
-    teamA = 'teamA',
-    teamB = 'teamB',
+    waitingRoom = 'Waiting Room',
+    teamA = 'Team A',
+    teamB = 'Team B',
 }

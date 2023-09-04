@@ -1,7 +1,3 @@
-import { TimerEvents } from '@shared/common/TimerEvents';
-import { ServerEvents } from './ServerEvents';
-
-
 export type ServerPayloads = {
   message?: string;
   lobbyID?: string;

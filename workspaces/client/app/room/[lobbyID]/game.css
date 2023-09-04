@@ -51,10 +51,44 @@
   height: 100%;
   display: flex;
   align-items: center;
+  gap: 10px;
 }
 
-.left-container, .right-container {
-  min-width: 150px;
+.left-container {
+  background-color: rgb(183, 225, 238);
+  border-radius: 16px;
+}
+
+.right-container {
+  background-color: rgb(225, 172, 172);
+  border-radius: 16px;
+}
+
+.team-tracker {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  height: 500px;
+  width: 180px;
+  text-align: center;
+}
+
+.team-tracker-header {
+  margin-top: 40px;
+}
+
+.team-tracker-footer {
+  margin-bottom: 40px;
+}
+
+.team-join-button, .team-score-button {
+  width: 80px;
+}
+
+.team-members {
+  margin-top: 40px;
+  margin-bottom: 40px;
+  flex: 1;
 }
 
 .mid-container {

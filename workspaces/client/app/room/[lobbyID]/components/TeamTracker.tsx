@@ -22,33 +22,37 @@ export default function TeamTracker({ members, roomTeam }: Props) {
 
     return (
         <div className='team-tracker'>
-            <Title order={5} className='team-name'>{roomTeam}</Title>
-            <Button
-                className='team-join-button'
-                onClick={onJoin}
-                variant='outline'
-                color="dark"
-                radius="xl"
-                size="xs"
-            >
-                Join
-            </Button>
+            <div className='team-tracker-header'>
+                <Title order={5} className='team-name'>{roomTeam}</Title>
+                <Button
+                    className='team-join-button'
+                    onClick={onJoin}
+                    variant='outline'
+                    color="dark"
+                    radius="xl"
+                    size="xs"
+                >
+                    Join
+                </Button>
+            </div>
             <div className="team-members">
                 {members.map(member =>
                     <div key={member}>{member}</div>
                 )}
             </div>
-            <div className='team-points'>Points: {points}</div>
-            <Button
-                className='team-score-button'
-                onClick={onScore}
-                variant='outline'
-                color="dark"
-                radius="xl"
-                size="xs"
-            >
-                Score
-            </Button>
+            <div className='team-tracker-footer'>
+                <div className='team-points'>Points: {points}</div>
+                <Button
+                    className='team-score-button'
+                    onClick={onScore}
+                    variant='outline'
+                    color="dark"
+                    radius="xl"
+                    size="xs"
+                >
+                    Score
+                </Button>
+            </div>
         </div>
     )
 }
