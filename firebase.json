@@ -1,0 +1,13 @@
+{
+  "hosting": {
+    "source": "./workspaces/client/.",
+    "ignore": [
+      "firebase.json",
+      "**/.*",
+      "**/node_modules/**"
+    ],
+    "frameworksBackend": {
+      "region": "us-west1"
+    }
+  }
+}

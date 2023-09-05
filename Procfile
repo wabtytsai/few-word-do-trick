@@ -1,1 +1,1 @@
-web: sh -c 'ls && yarn start'
+web: sh -c 'yarn start'
